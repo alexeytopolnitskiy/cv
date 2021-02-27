@@ -15,13 +15,13 @@ def inference(img_path):
         0: "cat",
         1: "dog"
     }
-    # initialize model
+    # initialize the model
     model = model_dispatcher.CatDogNN(config.MODEL_IN_FEATURES, config.MODEL_OUT_FEATURES)
     # load parameters of the model
     model.load_state_dict(torch.load(config.BEST_MODEL, map_location=config.INFERENCE_DEVICE))
-    # send model to cpu for inference
+    # send the model to cpu for inference
     model = model.to(config.INFERENCE_DEVICE)
-    # load image for inference
+    # load an image for inference
     img = Image.open(img_path)
     # specify transformation
     transform = transforms.Compose([
@@ -45,16 +45,19 @@ def inference(img_path):
     # obtain predicted class
     out = torch.max(out, dim=1)[1]
     out = out.detach().cpu().numpy()[0]
-
+    # print final result
     print(f"This is a {classes[out]} with {round(prob, 2)}%")
 
 
 if __name__ == "__main__":
+    # initialize parser
     parser = argparse.ArgumentParser()
-
+    # add arguments
     parser.add_argument(
         "--img_path",
         type=str
     )
+    # read arguments from command line
     args = parser.parse_args()
+    # run ineference
     inference(args.img_path)
