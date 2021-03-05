@@ -1,3 +1,0 @@
-Testing...
-
-Data: https://www.kaggle.com/dansbecker/cityscapes-image-pairs
